@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +10,7 @@
       <link href="css/style.css" media="screen" rel="stylesheet">
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
 integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<title>Ally_World</title>
 <style>
 * {
     margin: 0;
@@ -1052,10 +1053,10 @@ min-width: 994px;
  
 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
 <a class="navbar-brand" >ALLY-WORLD</a>
-<form class="form-inline top-form">
-<input class="form-control" type="text" placeholder="Search" aria-label="Search">
+<spring:form class="form-inline top-form" action="person" modelAttribute="profile">
+<input class="form-control" type="text" placeholder="Search" aria-label="Search" name="fullName">
 <button class="btn btn-secondary " type="submit"><i class="fas fa-search"> </i></button>
-</form>
+</spring:form>
 <ul class="navbar-nav ml-auto">
 <li class="nav-item active">
 <a class="nav-link" href="home">Home</a>

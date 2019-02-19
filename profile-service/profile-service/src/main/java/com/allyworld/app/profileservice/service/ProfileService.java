@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.allyworld.app.profileservice.entity.LoginCredentials;
 import com.allyworld.app.profileservice.entity.Profile;
 
 @Service
@@ -33,5 +32,7 @@ public interface ProfileService {
 	Profile getProfileByEmail(String email);
 
 	Profile getProfileByLogin(String email, String password);
+	
+	Profile getProfileByName(String name);
 
 }

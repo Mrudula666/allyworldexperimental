@@ -13,6 +13,7 @@
 <link href="css/style.css" media="screen" rel="stylesheet">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Ally_World</title>
 <style>
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -55,42 +56,7 @@ button:hover, a:hover {
 </head>
 <body>
 <jsp:include page="navigation.jsp" />
-	
-<div class="container-fluid">
-
-<spring:form action="updateProfile" modelAttribute="profile">
-<h2 style="text-align:center">Profile Details</h2>
- <div class="card">
-  <img class="image" src="images/ally.png" alt="John" style="width:100%">
-  <h1>${message.fullName}</h1>
-  <p class="title">Lives in ${message.currentAddress }</p>
-  <p>From ${message.permanentAddress }</p>
-  <p>Born on ${message.dateOfBirth }</p>
-  <p>relationship status ${message.relationShipStatus}</p>
-   
-  <p><button>Update Profile</button></p>
-</div>
-</spring:form>
-</div>
-
- <spring:form action="updatePost" modelAttribure="post">
-            <div class="col-sm-20 col-md-15 col-lg-8" id="feed"
-                style="background-color: white;">
-               
-                <div>
-                    <h4>${message.fullName}</h4>
-                    <img class="image"alt="all" src="images/ally.png" >
-                    </div><br><hr>
-                    <p>
-                        <a href="postDetails"><button>Load More Posts</button></a>
-                    </p>
-                    </div>
-                </spring:form>
-            
-</body>
-</html>
- <%-- <jsp:include page="navigation.jsp" />
-    <div class="container-fluid">
+ <div class="container-fluid">
         <div class="row">
             <div class="card">
                 <spring:form action="updateProfile" modelAttribute="profile">
@@ -114,7 +80,7 @@ button:hover, a:hover {
                 <spring:form action="updatePost" modelAttribure="post">
                 <div>
                     <h4>${message.fullName}</h4>
-                    <img class="image"alt="all" src="images/all.jpeg" >
+                    <img class="image"alt="all" src="images/all.jpg" >
                     </div><br><hr>
                     <p>
                         <a href="postDetails"><button>Load More Posts</button></a>
@@ -122,4 +88,10 @@ button:hover, a:hover {
                 </spring:form>
             </div>
         </div>
-    </div> --%>
+    </div>
+
+            
+</body>
+</html>
+ 
+   

@@ -3,7 +3,6 @@ package com.capgemini.allyworld.website.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.capgemini.allyworld.website.entity.Post;
 import com.capgemini.allyworld.website.entity.Profile;
+import com.capgemini.allyworld.website.entity.Request;
 
 @Controller
 public class WebsiteController {
@@ -24,6 +24,7 @@ public class WebsiteController {
 	private RestTemplate restTemplate;
 
 	Profile userProfile;
+	Profile searchProfile;
 	static Integer profileId;
 	Post post;
 	Integer postId;
@@ -35,19 +36,19 @@ public class WebsiteController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<String> userRegistration(@ModelAttribute Profile profile) {
+	public ModelAndView userRegistration(@ModelAttribute Profile profile) {
 		System.out.println("inside registration");
 		System.out.println("Before" + profile);
-		ResponseEntity<Profile> updatedProfile = restTemplate.postForEntity("http://localhost:2013/profiles", profile,
+		ResponseEntity<Profile> updatedProfile = restTemplate.postForEntity("http://profile-service/profiles", profile,
 				Profile.class);
 		System.out.println("after" + updatedProfile);
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ModelAndView("index","message","Registration Success");
 	}
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ModelAndView autheticateUser(@ModelAttribute Profile profile) {
 		System.out.println("Inside website controller");
-		ResponseEntity<Profile> response = restTemplate.postForEntity("http://localhost:2013/profiles/authenticate",
+		ResponseEntity<Profile> response = restTemplate.postForEntity("http://profile-service/profiles/authenticate",
 				profile, Profile.class);
 		System.out.println(response.getBody());
 		userProfile = response.getBody();
@@ -71,10 +72,33 @@ public class WebsiteController {
 	@RequestMapping("/update")
 	public ModelAndView update(@ModelAttribute Profile profile) {
 		System.out.println(profile);
-		restTemplate.put("http://localhost:2013/profiles", profile, Profile.class);
+		restTemplate.put("http://profile-service/profiles", profile, Profile.class);
 		return new ModelAndView("UpdateDetails", "message", "success");
 
 	}
+	@RequestMapping("/person")
+    public ModelAndView searchProfile(@ModelAttribute Profile profile) {
+        System.out.println("Inside search profile method");
+        System.out.println(profile);
+        ResponseEntity<Profile> response = restTemplate.getForEntity(
+                "http://profile-service/profiles/person?fullName=" + profile.getFullName(), Profile.class, profile);
+        searchProfile = response.getBody();
+        System.out.println(searchProfile);
+        return new ModelAndView("searchPersonForm", "person", searchProfile);
+    }
+	@RequestMapping("/send")
+    public ModelAndView sendRequest(@ModelAttribute Request request) {
+        System.out.println("Inside send request method");
+        Integer senderId  =  userProfile.getProfileId();
+        Integer receiverId = searchProfile.getProfileId();
+        String action = "send";
+        request.setSenderId(senderId);
+        request.setReceiverId(receiverId);
+        request.setAction(action);
+        System.out.println(searchProfile.getProfileId());
+        restTemplate.postForEntity("http://friend-service/friends",request, Profile.class);
+        return new ModelAndView("home", "message", "Request Send Successfully!");
+    }
 
 	@RequestMapping("/addPost")
 	public String addNewPost(@ModelAttribute Post post) {
@@ -87,7 +111,7 @@ public class WebsiteController {
 
 		post.setProfileId(userProfile.getProfileId());
 		System.out.println(post);
-		ResponseEntity<Post> entityOne = restTemplate.postForEntity("http://localhost:8989/posts", post, Post.class);
+		ResponseEntity<Post> entityOne = restTemplate.postForEntity("http://post-service/posts", post, Post.class);
 		// ResponseEntity<List> entity =
 		// restTemplate.getForEntity("http://localhost:8989/posts", List.class);
 		post = entityOne.getBody();
@@ -100,7 +124,7 @@ public class WebsiteController {
 
 	@RequestMapping("/home")
 	public ModelAndView userNewsFeedPage() {
-		List<Post> posts = restTemplate.getForObject("http://localhost:8989/posts", List.class);
+		List<Post> posts = restTemplate.getForObject("http://post-service/posts", List.class);
 
 		return new ModelAndView("PostDetails", "posts", posts);
 	}
@@ -110,7 +134,7 @@ public class WebsiteController {
 		System.out.println("update");
 
 		System.out.println("likeprofileId: " + userProfile.getProfileId());
-		ResponseEntity<Post> updatePost = restTemplate.getForEntity("http://localhost:8989/posts/?postId=" + postId,
+		ResponseEntity<Post> updatePost = restTemplate.getForEntity("http://post-service/posts/?postId=" + postId,
 				Post.class);
 		Post updatedPost = updatePost.getBody();
 		System.out.println("nEW post object is: " + updatePost);
@@ -130,7 +154,7 @@ public class WebsiteController {
 		updatedPost.getLikes().setLikes(likes);
 		System.out.println("size of likes" + updatedPost.getLikes().getLikes());
 
-		restTemplate.put("http://localhost:8989/posts/", updatedPost);
+		restTemplate.put("http://post-service/posts/", updatedPost);
 		model.addAttribute("post", updatedPost);
 		return "PostDetails";
 	}
@@ -140,7 +164,7 @@ public class WebsiteController {
 			Model model) {
 		System.out.println("likeprofileId: " + userProfile.getProfileId());
 		System.out.println(comment);
-		ResponseEntity<Post> updatePost = restTemplate.getForEntity("http://localhost:8989/posts/?postId=" + postId,
+		ResponseEntity<Post> updatePost = restTemplate.getForEntity("http://post-service/posts/?postId=" + postId,
 				Post.class);
 		Post updatedPost = updatePost.getBody();
 		System.out.println("nEW post object is: " + updatePost);
@@ -158,7 +182,7 @@ public class WebsiteController {
 		updatedPost.getComments().setLikes(likesComment);
 		System.out.println("size of likescomment" + updatedPost.getComments().getLikes());
 
-		restTemplate.put("http://localhost:8989/posts/", updatedPost);
+		restTemplate.put("http://post-service/posts/", updatedPost);
 		model.addAttribute("post", updatedPost);
 		return "PostDetails";
 
@@ -171,18 +195,26 @@ public class WebsiteController {
     public ModelAndView updatePost(@ModelAttribute Post post) {
 		
 		post.setProfileId(profileId);
-		System.out.println(post);
-        ResponseEntity<List> response = restTemplate.getForEntity("http://localhost:8989/posts/postByProfile?profileId="+userProfile.getProfileId(), List.class);
+		//System.out.println(post);
+		
+        ResponseEntity<List> response = restTemplate.getForEntity("http://post-service/posts/postByProfile?profileId="+userProfile.getProfileId(), List.class);
         List<Post> postList = response.getBody();
+        System.out.println("List of posts: "+response);
+        
         return new ModelAndView("Details", "post", postList);
     }
     
     @RequestMapping("/updatePostForUpdate")
     public ModelAndView post(@ModelAttribute Post post) {
         System.out.println("post...............");
-        restTemplate.put("http://localhost:8989/posts", post);
+        restTemplate.put("http://post-service/posts", post);
         return new ModelAndView("Details", "message", "success");
     }
+    @RequestMapping("/delete")
+	public String deletePost(@ModelAttribute Post post) {
+  		restTemplate.delete("http://post-service/posts/{postId}", postId);
+		return "DisplayDelete";
+	}
  
 }
 

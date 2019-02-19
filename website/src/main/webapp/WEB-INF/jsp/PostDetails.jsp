@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Ally_World</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
@@ -224,13 +224,13 @@ hr.new {
 								Search</button> -->
 								<!--  -->
 							<a onclick="location.href='comment?postId=${post.postId}&comment='+document.getElementById('com').value;" 
-							class="btn btn-blockbtn-primary" > <i class="fa fa-comments">Comments</i>
+							class="btn btn-blockbtn-primary" > <i class="fas fa-comments">Comments</i>
 </a> <i
 								class="fa">&#xf086;</i> 
 								<input type="text" name="comment" id="com" > 
 							<b>Comments:</b>: ${post.comments.comment}
 						</p>
-
+						<a href="delete"><i class="fas fa-trash" aria-hidden="true">Delete Post</i></a>
 						<hr class="new">
 					</jstl:forEach>
 

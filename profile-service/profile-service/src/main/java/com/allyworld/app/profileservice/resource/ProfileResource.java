@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.allyworld.app.profileservice.entity.Profile;
@@ -66,6 +67,15 @@ public class ProfileResource {
 //		Profile updatedProfile = service.updateProfile(friendProfile);
 //		return new ResponseEntity<Profile>(updatedProfile, HttpStatus.OK);
 //	}
+	@GetMapping("/person")
+    public ResponseEntity<Profile> getProfileByName(@RequestParam String fullName){
+        System.out.println(fullName);
+//        String name = profile.getFullName();
+        System.out.println(fullName);
+        Profile profile = service.getProfileByName(fullName);
+        System.out.println(profile);
+        return new ResponseEntity<Profile>(profile, HttpStatus.OK);
+    }
 
 	@GetMapping
 	public ResponseEntity<List<Profile>> getProfiles() {

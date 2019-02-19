@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Ally World</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <!-- jQuery library -->
@@ -127,10 +127,12 @@ hr.new {
 						<!--  -->
 						<a
 							onclick="location.href='comment?postId=${post.postId}&comment='+document.getElementById('com').value;"
-							class="btn btn-blockbtn-primary"> <i class="fa fa-comments">Comments</i>
+							class="btn btn-blockbtn-primary"> <i class="fas fa-comments">Comments</i>
 						</a> <i class="fa">&#xf086;</i> <input type="text" name="comment"
 							id="com"> <b>Comments:</b>: ${post.comments.comment}
 					</p>
+					<p>
+					<i class="fas fa-trash" aria-hidden="true">Delete Post</i></p>
 					<hr class="new">
 				</jstl:forEach>
 			</c:form>

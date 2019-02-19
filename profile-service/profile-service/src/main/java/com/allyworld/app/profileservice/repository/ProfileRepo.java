@@ -14,5 +14,7 @@ public interface ProfileRepo extends MongoRepository<Profile, Object>{
 	Profile findProfileBylogin(String email,String password);
 	
 	/* List<Profile> findProfileByFullName(String name); */
+	
+	Profile findProfileByFullName(String fullName);
 
 }

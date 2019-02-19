@@ -17,6 +17,7 @@
    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,600italic,700italic,800italic,400,300,600,800' rel='stylesheet' type='text/css'>
    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="js/validator.js"></script>
+<title>Ally_World</title>
 <script type = "text/javascript">
        function validateEmail() {
          var emailID = document.myForm.EMail.value;
@@ -92,6 +93,7 @@
                 <input type="date" placeh.older="date Of Birth" name="dateOfBirth">
               </div> -->
             <input type="date" name="dateOfBirth" value="">
+            
             <div class="cb-bx">
                 <div class="cb-bx-1">
                     <select class="date">
@@ -171,12 +173,13 @@
                         <option>1995</option>    
                     </select>
                 </div>
-
+                
                 <a href="#"><p class="rsn"> 
                     why do I have to 
                     provide your date of birth 
                      <br> </p></a>
             </div>
+            
             <form class="action">
                 <input type="radio" name="gender" value="male"> Male
                 <input type="radio" name="gender" value="female"> Female

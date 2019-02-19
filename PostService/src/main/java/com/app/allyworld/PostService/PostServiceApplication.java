@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
 import com.app.allyworld.PostService.entity.Comments;
@@ -14,8 +15,7 @@ import com.app.allyworld.PostService.entity.Post;
 import com.app.allyworld.PostService.service.PostService;
 
 @SpringBootApplication
-//@EnableOAuth2Sso
-/* @EnableWebSecurity */
+@EnableDiscoveryClient
 public class PostServiceApplication {
 
 	public static void main(String[] args) {

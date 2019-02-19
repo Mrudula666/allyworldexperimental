@@ -70,7 +70,7 @@ public class ProfileserviceImpl implements ProfileService {
 		if (updateFriendList == null) {
 			updateFriendList = new ArrayList<Integer>();
 		}
-		//updateFriendList.add(senderProfileId);
+		updateFriendList.add(senderProfileId);
 		System.out.println(updateFriendList);
 		receiversProfile.setPendingFriendList(updateFriendList);
 		System.out.println(receiversProfile.getPendingFriendList());
@@ -130,6 +130,12 @@ public class ProfileserviceImpl implements ProfileService {
 	public List<Integer> getFriendsList(int senderId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Profile getProfileByName(String name) {
+		  return repository.findProfileByFullName(name);
+		
 	}
 
 }
